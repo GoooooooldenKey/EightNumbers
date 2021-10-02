@@ -1,4 +1,5 @@
 #include <string>
+#include <string_view>
 #include <iostream>
 #include <vector>
 #include "Board.h"
@@ -74,9 +75,25 @@ void tick() {
 
     if (isFound) {
         isRunning = false;
-        cout << "From: \n" << render.Render(board) << "\n" << "To: \n" << render.Render(targetBoard) << "\n";
-        cout << endl;
-        cout << "\tStep: " << it->step << "\n\t" << stepCount << " steps in total.";
+        cout << "From: \n" << render.Render(board) << endl << "To: \n" << render.Render(targetBoard) << endl;
+        cout << "Steps:" << endl;
+
+        Cache::iterator iterA = cache.begin();
+        BoardCache::iterator iterB = iterA->begin();
+        size_t l = 1;
+
+        while (true) {
+            if (it->step.substr(0, l) == iterB->step) {
+                cout << iterB->step << endl << render.Render(iterB->board) << endl;
+                if (it->step == iterB->step) break;
+                iterA++;
+                iterB = iterA->begin();
+                l++;
+            } else {
+                iterB++;
+            }
+        }
+        cout << stepCount << " steps in total.";
     }
 }
 
