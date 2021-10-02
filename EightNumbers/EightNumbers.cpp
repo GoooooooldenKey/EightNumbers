@@ -19,6 +19,7 @@ typedef std::vector<BoardCache> Cache;
 
 bool isRunning = true;
 bool isFound = false;
+size_t stepCount;
 
 Board board = Board(3);
 Board targetBoard = Board(3);
@@ -32,6 +33,7 @@ void tick() {
     boardcache.shrink_to_fit();
     BoardCache::iterator it = (cache.end() - 1)->begin();
 
+    stepCount++;
     for (; it != (cache.end() - 1)->end(); it++) {
         b = it->board;
         if (b.pullChessIntoBlank(Direction::up)) {
@@ -72,9 +74,9 @@ void tick() {
 
     if (isFound) {
         isRunning = false;
-        cout << render.Render(b);
+        cout << "From: \n" << render.Render(board) << "\n" << "to: \n" << render.Render(targetBoard) << "\n";
         cout << endl;
-        cout << it->step;
+        cout << "\tStep: " << it->step << "\n\t" << stepCount << " steps in total.";
     }
 }
 
@@ -100,6 +102,7 @@ void preInitialization() {
         .putChess(BPOS(2, 2), Chess(5));
 
     cache.shrink_to_fit();
+    stepCount = 0;
 }
 
 int main() {
@@ -108,7 +111,7 @@ int main() {
     BoardCache boardcache;
     boardcache.insert(boardcache.end(), BoardWithStep{board, "S"});
     cache.insert(cache.end(), boardcache);
-
+    
     while (isRunning) {
         tick();
     }
