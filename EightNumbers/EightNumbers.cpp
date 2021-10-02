@@ -74,7 +74,7 @@ void tick() {
 
     if (isFound) {
         isRunning = false;
-        cout << "From: \n" << render.Render(board) << "\n" << "to: \n" << render.Render(targetBoard) << "\n";
+        cout << "From: \n" << render.Render(board) << "\n" << "To: \n" << render.Render(targetBoard) << "\n";
         cout << endl;
         cout << "\tStep: " << it->step << "\n\t" << stepCount << " steps in total.";
     }
